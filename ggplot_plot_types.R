@@ -1,3 +1,4 @@
+library(ggplot2)
 # ggplot2 example
 line_data <- data.frame(year=1900:2000, price=1:101)
 ggplot(line_data, aes(x=year, y=price)) + geom_line()
@@ -46,3 +47,25 @@ grades <- data.frame(grade=c("good", "good", "good", "fair", "fair",
 ggplot(grades) +
   geom_bar(aes(grade), stat="count")
 # Stacked bar chart
+summary(diamonds)
+head(diamonds)
+ggplot(diamonds) +
+  geom_bar(aes(x=color, fill=cut), stat = "count")
+# Grouped bar chart
+ggplot(diamonds) +
+  geom_bar(aes(x=color, fill=cut), stat = "count", position="dodge")
+# Histogram
+head(points)
+ggplot(points) +
+  geom_histogram(aes(x), binwidth = 0.1, fill="steelblue", color="black")
+# Y as density
+ggplot(points) +
+  geom_histogram(aes(x, y=..density..), binwidth = 0.1, fill="steelblue", color="black")
+# Box Plot
+height <- data.frame(gender=c(rep("m", 100), rep("f", 100)), 
+                     height=c(rnorm(100,mean=175), rnorm(100, mean=172)))
+ggplot(height) +
+  geom_boxplot(aes(gender, height))
+# Density Plot (smooth alternative of a histogram)
+ggplot(height) +
+  geom_density(aes(x=height, fill=gender), stat = "density", alpha=0.6)
