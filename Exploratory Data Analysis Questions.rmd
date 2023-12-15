@@ -1,0 +1,567 @@
+---
+title: "Practical Session 1"
+output:
+  html_document:
+    df_print: paged
+  pdf_document: default
+  html_notebook: default
+editor_options:
+  markdown:
+    wrap: 72
+---
+
+# Guidelines
+
+This sheet presents a collection of exercises as part of the first
+practical session. It is designed as 'do-it-yourself' process where you
+can ask questions interactively upon request. The goal of this sheet is
+that you can control your own pace and specifically shift your attention
+to the areas where you think it is best to build up expertise.
+
+Our recommendations:
+
+-   Choose the sections depending your prior knowledge.
+
+-   Ask questions! Reach out to your neighbors or the teaching
+    assistants. As a first step, it is also wise to consult the official
+    help pages or a websearch.
+
+-   Follow up with the background materials where necessary. We compiled
+    slide decks concerning several focus areas (introduction to R, data
+    analsis, plotting with ggplot2). These should cover all relevant
+    materials; however, you might find it more effective either to skim
+    the materials or search for background literature online.
+
+-   This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook. When
+    you execute code within the notebook, the results appear beneath the
+    code. We also uploaded a short tutorial on R Markdown.
+
+# Introduction to R
+
+This section is designed to review the basic functionality of R.
+
+-   Level: beginners
+
+-   Accompanying materials: 1_IntroductionR.pdf (please go through this
+    material briefly before running the exercises)
+
+-   Goals: after this section, you will be able to perform simple
+    calculations in R, utilize variables and handle vectors/matrices.
+
+## First steps
+
+As a very first step, run the following example to validate that it
+really outputs 21. You can do so by clicking the green "\>" on the right
+side of the text editor. Alternatively, try executing this chunk by
+placing your cursor inside it and pressing *Ctrl+Shift+Enter*.
+
+```{r}
+3.5 * (4 + 2)
+```
+
+Next, calculate the numeric value of '16 thirds'.
+
+```{r}
+16 / 3
+```
+
+R will also tell you when something goes wrong and indicates a potential
+reason. As an example, experiment with the following expression for
+which the value is not defined mathematically.
+
+```{r}
+0 / 0
+```
+
+Here is another example where the expression is incomplete. See what
+happens and then fix it such that it computes to 2.75.
+
+```{r}
+3 / 4 + 2
+```
+
+The editor also recognizes comments for which the rest of the current
+line will be ignored during execution. Comments are Think what the
+expected result should be for the following expression before execution.
+
+```{r}
+3 + 4 # + 2
+```
+
+You can consult the built-in help pages in R via the following command:
+
+```{r}
+help(sin)
+```
+
+## Operations, functions and variables
+
+Try the logical operators to check whether the square root of 8 is
+really smaller than 3.
+
+```{r}
+sqrt(8) < 3
+```
+
+Is 4 equal to the square root of 16?
+
+```{r}
+4 == sqrt(16)
+```
+
+Now define a variable 'z' and set its value to 3. Then increment its
+value by one.
+
+```{r}
+z <- 3
+z + 1
+```
+
+What will be the value of 'z' after executing the following code?
+
+```{r, eval=FALSE}
+x <- 2
+x <- x + 1
+y <- 4
+z <- x + y
+x <- x + 1
+z <- z + x
+```
+
+## Vectors and matrices
+
+Given is the following vector. What is its length? What is the value of
+its second element? Afterwards append a new value zero at the beginning.
+What is the new value of the second element?
+
+```{r}
+set.seed(1)
+a <- sample.int(10)
+a
+# enter your answer here
+length(a)
+new_a <- c(0, a)
+new_a[2]
+```
+
+We now want to check the summary statistics of the above vector 'a'.
+What are its mean, variance, standard deviation and summed value?
+
+```{r}
+mean(a)
+var(a)
+sd(a)
+sum(a)
+```
+
+Compute the sum overall integers from 1 to 100.
+
+```{r}
+sum(1:100)
+```
+
+Assign the value 15 to a variable 'x' and create a vector 'y' with the
+values [ 1, 2, 3, 10, 100]. Multiply each component of the vector with
+'x' and save the result in an object 'z'. Calculate the sum of all
+elements in 'z'.
+
+```{r}
+x <- 15
+y <- c(1, 2, 3, 10, 100)
+z <- x * y
+sum(z)
+```
+
+Generate a sequence from 0 to 10 and a sequence from 5 to -5.
+
+```{r}
+seq(0, 10)
+seq(5, -5)
+```
+
+Generate a sequence from -3 to 3 by 0.1 steps.
+
+```{r}
+seq(-3,3,0.1)
+```
+
+Define two vectors with the following data: 't' includes the strings
+"mon", "tue", "wed", "thu", "fri", "sat"; and 'm' includes [90, 80, 50,
+20, 5, 20]. Concatenate both vectors column-wise into a matrix with 6
+rows and 2 columns and save this a a new object named 'study'.
+
+```{r}
+t <- c("mon", "tue", "wed", "thu", "fri", "sat")
+m <- c(90, 80, 50, 20, 5, 20)
+study <- data.frame(V1 = t, V2 = m)
+```
+
+## Data handling
+
+Loading data is usually a bit tricky at the first time and we thus have
+provided an additional sheet 'Loading Data into R.pdf'. As a general
+rule, it is usually convenient to work with CSV files (i.e. if you have
+an Excel sheet, one must first convert it to CSV).
+
+We provided a file 'persons.csv'. Look at its content first as a CSV
+file and then load it into R. Try the following alternatives:
+
+-   In R Studio, click Tools \> Import Dataset \> From Text File ...
+
+-   Try the code option with 'read.csv(file.choose(), header=TRUE, sep=
+    ",")'. One often appends an additional argument 'stringsAsFactors =
+    FALSE' which stores all character sequences explicitly as strings
+    (otherwise R replaces them sometimes by a special data type called
+    'factor').
+
+-   Use the previous command but add an explicit path to the file. Think
+    about it: what could be a potential benefit of it?
+
+```{r}
+d <- as.data.frame(read.csv(file = "~/DevWork/Uni-Project/machine-learning-with-R/data/persons.csv"), header=TRUE, spe=", ")
+```
+
+Next, determine the dimensions, the column names and their type. If your
+column with the names is not of type 'character', then R changed the
+format automatically to a 'factor' (or 'integer)' which sometimes
+introduces trick situations. If this happend, you can circumvent this by
+appending an argument 'stringsAsFactors=FALSE' at then end of your call
+to 'read.csv()'.
+
+```{r}
+dim(d)
+str(d)
+typeof(d)
+dd <- as.data.frame(read.csv(file = "~/DevWork/Uni-Project/machine-learning-with-R/data/persons.csv"), header=TRUE, spe=", ", stringsAsFactors=FALSE)
+
+```
+
+Filter for all persons with name 'Robin'.
+
+```{r}
+d[d$name == "Robin", ]
+```
+
+Filter for all persons with name 'Robin' or age above 50.
+
+```{r}
+d[d$name == "Robin" | d$age > 50,]
+```
+
+Create the following data frame. Calculate the minimum and maximum value
+in the column 'age'. Obviously, there have been some issues collecting
+the data. Generate a variable 'selection' that contains the result to
+the logical query of 'age under 20 and above 80'. Use this variable to
+set the age observations to 'NA' if age is under 20 or above 80. Then
+calculate the Body Mass Index BMI = Weight [in kg] / (Length [in m])\^2
+of all people from the previous data frame. Store the results in a
+variable BMI and append it to your data frame. Round the resulting
+values.
+
+age \| sex \| height \| weight
+
+21 \| m \| 181 \| 69
+
+35 \| f \| 173 \| 58
+
+829 \| m \| 171 \| 75
+
+2 \| e \| 166 \| 60
+
+```{r}
+
+age <- c(21, 35, 829, 2)
+sex <- c("m", "f", "m", "e")
+height <- c(181, 173, 171, 166)
+weight <- c(69, 58, 75, 60)
+
+
+# ERROR: cbind only combine same type of data
+# data <- as.data.frame(cbind(age, sex, height, weight))
+
+# Create the dataframe directly can solve the ERROR above
+data <- data.frame(age = age, sex = sex, height = height, weight = weight)
+
+min(data$age)
+max(data$age)
+
+typeof(data$weight)
+selection <- data$age < 20 | data$age > 80
+# both work
+selection <- data[,1] < 20 | data[,1] > 80
+data$age[selection] <- NA
+data$BMI <- round(data$weight / ((data$height / 100)^2), 2)
+
+
+# BMI = Weight [in kg] / (Length [in m])^2
+```
+
+# Control Flow
+
+This section is designed to control the operation of code inside R (i.e.
+if-clauses, loops, etc.). It will be beneficial later but you can also
+come to it later when you find it necessary.
+
+-   Level: intermediate
+
+-   Accompanying materials: see corresponding section in
+    1_IntroductionR.pdf (please go through this material briefly before
+    running the exercises)
+
+-   Goals: after this section, you will be able to implement if-clauses,
+    loops and functions.
+
+## Conditional statements and loops
+
+Print all odd numbers on the screen in the range from 1 to 10 using a
+while-loop.
+
+```{r}
+i <- 1
+while(i<11) {
+  if (i%%2==1){
+    print(i)
+  }
+  i <- i+1
+  # i <- i + 2
+  
+}
+```
+
+Now print all odd numbers using a for-loop.
+
+```{r}
+for (i in 1:10) {
+  if(i%%2==1){
+    print(i)
+  }
+}
+```
+
+## Nested statements
+
+Create a vector containing all integer numbers from 7 to 50. Then use a
+for loop to double every number that is divisible by 7.
+
+Hint: you can use the module operator %% to see if a number is divisible
+by another. Examples are as follows:
+
+```{r}
+15 %% 4  # 15 is not divisible by 4
+15 %% 3  # 15 is divisible by 3
+15 %% 5  # 15 is divisible by 5
+```
+
+```{r}
+v <- c(7:50)
+for(i in v) {
+  if (i%%7==0) {
+    v[i-6] <- v[i-6]*2
+  }
+}
+
+for (i in 1:length(v)) {
+  if (i )
+}
+print(v)
+```
+
+## Functions
+
+Write a function that calculates the factorial of a number. Use a
+non-recursive function to do so. Calculate 10! afterwards. What happens
+if you evaluate your function with input 0, -1, NA or an empty string?
+
+Hint: the factor is defined as n! = n \* (n-1) \* ... \* 2 \* 1. For
+instance, 5! = 5 \* 4 \* 3 \* 2 \* 1 = 120. By definition, 0! := 1.
+
+```{r}
+factorial <- function(num) {
+  total <- 1;
+  if (num == 0) {
+    return 1
+  } 
+  else if (num < 0) {
+    stop("Negative Value!")
+  }
+  else {
+    n <- num
+    while(n>0){
+    total = total * n
+    n = n-1
+    }
+    return total
+  }
+}
+result <- factorial(7)
+result
+```
+
+#  Built-in visualization
+
+This section is designed to introduce the native plotting capabilities
+of R.
+
+-   Level: intermediate
+
+-   Accompanying materials: see 2_DataVisualization.pdf; based on these
+    materials, you will experiment with 5 new commands, namely,
+    'plot()', 'boxplot()', 'hist()', 'qqplot()' and 'qqline()'.
+
+-   Goals: after this section, you will be able to implement if-clauses,
+    loops and functions.
+
+## Line plots
+
+Generate a sequence from -3 to 3 by 0.1 steps. Plot the function y =
+5-x\^2 with x being the previously generated sequence. What does the
+function look like?
+
+```{r}
+
+```
+
+## Boxplot
+
+The following table gives the murders in New Jersey by date of the week
+(i.e. Sunday to Saturday):
+
+```{r}
+murder <- c(53, 42, 51, 45, 36, 37, 65)
+```
+
+Visualize the distribution as a boxplot.
+
+```{r}
+
+```
+
+## Histogram
+
+Change the previous plot to a histogram.
+
+```{r}
+
+```
+
+## Q-Q plot
+
+Is it normally distributed? Use an Q-Q plot to analyze it.
+
+```{r}
+
+```
+
+# Visualization with ggplot2
+
+This section is designed to leverage the plotting capabilities of
+'ggplot2'.
+
+-   Level: advanced
+
+-   Accompanying materials: see corresponding section in
+    3_AdvancedPlotting.pdf
+
+-   Goals: after this section, you will be able to create plots with
+    ggplot2 and adapt their layout.
+
+## Preparation
+
+As a preparation, load the 'ggplot2' package. Note that you must install
+it prior to the first use:
+
+```{r}
+library(ggplot2)
+```
+
+In the following, we will use the dataset 'mtcars' that includes horse
+power (column: 'hp') and fuel efficiency (column: 'mpg') for various
+cars. You can load the data as follows:
+
+```{r}
+data("mtcars")
+```
+
+## First steps
+
+The usual call for ggplot2 is sketched in the follow. You pass once the
+dataset and which columns go on the x- and y-axis. Additionally, you
+need to choose what type of plot you want to obtain. For instance, you
+get a point plot by choosing 'geom_point'.
+
+```{r, eval=FALSE}
+ggplot(dataset, aes(x = column_x, y = column_y)) +
+  geom_TYPE()
+```
+
+Now prepare a simple point plot with horse power vs. fuel efficiency by
+adapting the above code template.
+
+```{r}
+
+```
+
+## Combing geometric elements
+
+ggplot2 has several caveats that increase flexibilitiy:
+
+-   The function call to 'aes()' stores which columns go where. It can
+    not only be passed to 'ggplot()' where it is set globally for all
+    geometric structure. One can also set axes inside the call to
+    'geom_TYPE()'; for instance, 'geom_point(aes(y = column_y))'.
+
+-   One can combine several layers by concating elements with a '+'.
+
+Let's try the above: Plot the following functions in one plot for a
+range of [-5, 5]:
+
+-   f1(x) = 3\^x
+
+-   f2(x) = 10 \* x \* sin(x\^2)
+
+-   f3(x) = x\^3
+
+```{r}
+
+```
+
+## Trend lines
+
+Add a trendline to the previous dataset 'mtcars' (see function
+'geom_smooth()').
+
+```{r}
+
+```
+
+## Annotations
+
+Change the descriptions of both axes and choose a printer-friendly
+theme.
+
+```{r}
+
+```
+
+## Coloring
+
+ggplot2 has functionality for changing colors (e.g. the routine
+'scale_fill_manual'). Look up the corresponding materials and then
+change the colors of the points according to the variable 'cyl'.
+
+Hint: some arguments expect a discrete choice of values and one must
+thus convert it to a factor via 'as.factor()'.
+
+```{r}
+
+```
+
+## Switching from wide to long data formas
+
+Load the 'USArrests' data set and use the 'reshape2' library to convert
+the data into the long format. Then create a scatter plotting the crimes
+against the percentage of urban population of a state.
+
+```{r}
+  
+```

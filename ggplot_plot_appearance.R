@@ -118,6 +118,10 @@ ggplot(df, aes(x, y)) +
   theme_bw()
 # can get more themes but need to download the package
 library(ggthemes)
+ggplot(mpg, aes(displ, hwy)) + 
+  geom_point() + 
+  theme_economist()
+
 # labels via labs
 ggplot(df, aes(x, y)) +
   geom_point() +

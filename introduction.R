@@ -42,7 +42,9 @@ sum(1:100)
 # Generate Matrices by combining vectors Dataframe
 height <- c(163, 186, 172)
 shoe_size <- c(39, 44, 41)
+# Convert matrices to data frame
 m <- as.data.frame(cbind(height, shoe_size))
+a2 <- data.frame(height, shoe_size)
 head(m)
 # Read csv file
 d <- as.data.frame(read.csv(file.choose()), header=TRUE, spe=", ")
@@ -56,17 +58,20 @@ d[["age"]]
 # Accessing individual element (row, column)
 d[1,2]
 # Using condition to select a subset of rows
-d[d$height > 180, ]
+d[d$height > 180, ] 
 # Using several condition
 d[d$height > 180 & d$age > 25, ]
 d[d$age == 26 | d$shoesize == 45, ]
+# This is wrong cuz default it will be grabbing column
+d[d$age == 26 | d$shoesize == 45 ]
 # Adding columns
 d[["heightInInch"]] <- d$height/2.51
 # Get column name
 colnames(d)
 # Update column names
 colnames(d) <- c("name", "waist", "weight", "shoes", "books")
-# fucntion
+
+## fucntion
 f <- function(a,b) {
   print(c(a, b))
 }
@@ -88,3 +93,6 @@ while (z <= 4){
 }
 help("summary")
 summary(d)
+
+# option + dash shortcut
+<- 
